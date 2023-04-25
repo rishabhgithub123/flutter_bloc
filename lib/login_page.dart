@@ -8,6 +8,8 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LoginBloc _loginBloc = context.read<LoginBloc>();
+
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state is LoginFailed) {
@@ -23,12 +25,10 @@ class LoginPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextField(
-                  onChanged: (value) =>
-                      context.read<LoginBloc>().add(UsernameChange(value)),
+                  onChanged: (value) => _loginBloc.add(UsernameChange(value)),
                 ),
                 TextField(
-                  onChanged: (value) =>
-                      context.read<LoginBloc>().add(PasswordChange(value)),
+                  onChanged: (value) => _loginBloc.add(PasswordChange(value)),
                 ),
                 Center(
                   child: BlocBuilder<LoginBloc, LoginState>(
@@ -38,9 +38,7 @@ class LoginPage extends StatelessWidget {
                       }
                       return ElevatedButton(
                         child: const Text("Login"),
-                        onPressed: () => context
-                            .read<LoginBloc>()
-                            .add(OnLoginClick(context)),
+                        onPressed: () => _loginBloc.add(OnLoginClick(context)),
                       );
                     },
                   ),
