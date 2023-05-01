@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       home: BlocProvider(
         create: (context) => LoginBloc(),
-        child: const LoginPage(),
+        child: LoginPage(),
       ),
     );
   }

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:bloc_api/LoginService.dart';
 import 'package:bloc_api/home_page.dart';
@@ -22,7 +20,35 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     on<UsernameChange>(usernameChange);
     on<PasswordChange>(passwordChange);
-    on<OnLoginClick>(onLoginButtonClick);
+    on<OnLoginButtonClickOneMethod>(onLoginButtonClickOneMethod);
+
+    on<OnLoginClickSecondMethod>(onLoginClickSecondMethod);
+  }
+
+  onLoginClickSecondMethod(OnLoginClickSecondMethod event, emit) {
+    emit(const LoginLoading());
+    if (event.username.isEmpty) {
+      emit(LoginFailed("Enter Valid Username"));
+      return;
+    }
+
+    if (event.password.isEmpty) {
+      emit(LoginFailed("Enter Valid Password"));
+      return;
+    }
+
+    bool response = loginService.initiateLogin(event.username, event.password);
+
+    if (response) {
+      emit(const LoginSuccess());
+      Navigator.push(
+        event.context,
+        MaterialPageRoute(
+            builder: (context) => const MyHomePage(title: "Logged In")),
+      );
+    } else {
+      emit(LoginFailed("Username password doesn't matched"));
+    }
   }
 
   usernameChange(UsernameChange event, emit) {
@@ -33,7 +59,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     password = event.password;
   }
 
-  onLoginButtonClick(OnLoginClick event, emit) {
+  onLoginButtonClickOneMethod(OnLoginButtonClickOneMethod event, emit) {
     emit(const LoginLoading());
     if (username.isEmpty) {
       emit(LoginFailed("Enter Valid Username"));
@@ -55,7 +81,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             builder: (context) => const MyHomePage(title: "Logged In")),
       );
     } else {
-      emit(LoginFailed("Something went wrong"));
+      emit(LoginFailed("Username password doesn't matched"));
     }
   }
 }

@@ -18,9 +18,20 @@ class PasswordChange extends LoginEvent {
   List<Object?> get props => [password];
 }
 
-class OnLoginClick extends LoginEvent {
+class OnLoginButtonClickOneMethod extends LoginEvent {
   BuildContext context;
-  OnLoginClick(this.context);
+  OnLoginButtonClickOneMethod(this.context);
   @override
   List<Object?> get props => [context];
+}
+
+class OnLoginClickSecondMethod extends LoginEvent {
+  BuildContext context;
+  String username;
+  String password;
+
+  OnLoginClickSecondMethod(this.context, this.username, this.password);
+
+  @override
+  List<Object?> get props => [username, password];
 }

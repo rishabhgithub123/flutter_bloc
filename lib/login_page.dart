@@ -4,7 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'login_bloc.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  LoginPage({Key? key}) : super(key: key);
+
+  TextEditingController _usernsmeController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +28,11 @@ class LoginPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextField(
+                  controller: _usernsmeController,
                   onChanged: (value) => _loginBloc.add(UsernameChange(value)),
                 ),
                 TextField(
+                  controller: _passwordController,
                   onChanged: (value) => _loginBloc.add(PasswordChange(value)),
                 ),
                 Center(
@@ -38,7 +43,14 @@ class LoginPage extends StatelessWidget {
                       }
                       return ElevatedButton(
                         child: const Text("Login"),
-                        onPressed: () => _loginBloc.add(OnLoginClick(context)),
+                        onPressed: () {
+                          //_loginBloc.add(OnLoginClick(context));
+
+                          _loginBloc.add(OnLoginClickSecondMethod(
+                              context,
+                              _usernsmeController.text,
+                              _passwordController.text));
+                        },
                       );
                     },
                   ),
